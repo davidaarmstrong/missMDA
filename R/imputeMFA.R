@@ -133,12 +133,16 @@ imputeMFA<-function (X, group, ncp = 2, type = rep("s", length(group)),
       }
       ind.var <- vector(mode = "list", length = length(group))
       ind.var[[1]] <- 1:group.mod[1]
-      for (g in 2:length(group)) ind.var[[g]] <- (cumsum(group.mod)[g - 1] + 1):cumsum(group.mod)[g]
+      if(length(group) > 1){
+        for (g in 2:max(2, length(group))) ind.var[[g]] <- (cumsum(group.mod)[g - 1] + 1):cumsum(group.mod)[g]
+      }
       
       result$call$group.mod <- group.mod
       ind.var <- vector(mode = "list", length = length(group))
       ind.var[[1]] <- 1:result$call$group.mod[1]
-      for (g in 2:length(group)) ind.var[[g]] <- (cumsum(result$call$group.mod)[g - 1] + 1):cumsum(result$call$group.mod)[g]
+      if(length(group) > 1){
+        for (g in 2:max(2, length(group))) ind.var[[g]] <- (cumsum(result$call$group.mod)[g - 1] + 1):cumsum(result$call$group.mod)[g]
+      }
       result$call$ind.var = ind.var
       return(result)
     }
@@ -184,7 +188,9 @@ imputeMFA<-function (X, group, ncp = 2, type = rep("s", length(group)),
     }
     ind.var <- vector(mode = "list", length = length(group))
     ind.var[[1]] <- 1:group.mod[1]
-    for (g in 2:length(group)) ind.var[[g]] <- (cumsum(group.mod)[g - 1] + 1):cumsum(group.mod)[g]
+    if(length(group) > 1){
+      for (g in 2:max(2, length(group))) ind.var[[g]] <- (cumsum(group.mod)[g - 1] + 1):cumsum(group.mod)[g]
+    }
     fittedX <- Xhat <- as.matrix(Xhat)
     if (ncp >= min(nrow(Xhat) - 2, ncol(Xhat) - 1)) stop("ncp is too large")
     ncp <- min(ncp, ncol(X) - 1, nrow(X) - 2)
